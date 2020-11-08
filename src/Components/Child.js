@@ -16,25 +16,45 @@ function Child(props) {
 
     const [document,setDocument]=useState([]);
  
-    let l=props.con.length;
-    const doc=props.con[l-1];
-    console.log(doc)
     const data= MOCK_DATA;
     const columns=['Name','ScreeName','Followers','Following','Location','Verified']
 
+   var obj=data;
+   var filtered=data;
 
-
-    const filteredData=data.filter((item)=>{
-       
-        if(item.followers >= Number(doc.filter))
+    const filteredData=props.con.map(doc=>
         {
-        console.log('docfilter',doc.filter,'item',item)
-        return item
-        }
-    })
+          obj=filtered;
+          filtered=()=>{   
+              
+              if(doc.id=="followers")
+                {
+                 if(doc.operator=="GTE")
+                 {
+                     return obj.filter(obj1=>obj1.followers>=Number(doc.filter))
+                 }
+                 else
+                 {
+                    return obj.filter(obj1=>obj1.followers<=Number(doc.filter))
+                 }
+                }
+             else if(doc.id=="location")
+             {
+              if(doc.operator=="CONTAINS")
+              {
+                  return obj.filter(obj1=>obj1.location.includes(doc.filter))
+              }   
+              }
+            }
+
+         })
+         console.log(filteredData)
+    
+        
+    
 
 
-
+//    console.log("filteredData",filteredData)
      React.useEffect(()=>{
         
       setDocument([...document,{filteredData}])
@@ -58,7 +78,7 @@ function Child(props) {
 
 
             <tbody>
-                {filteredData.map(user=>
+                {/* {filteredData.map(user=>
                     <tr>
                         <td>{user.name}</td>
                         <td>{user.sname}</td>
@@ -67,10 +87,10 @@ function Child(props) {
                         <td>{user.location}</td>
                         <td>{user.verified}</td>
                     
-                    </tr>)}
+                    </tr>)} */}
             </tbody>
 
-            
+
            </table>
         </div>
     )

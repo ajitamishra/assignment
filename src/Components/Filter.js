@@ -24,43 +24,85 @@ class Filter extends React.Component {
       operator:"",
       filter:"",
       data:MOCK_DATA,
-      clicked:false
+      clicked:false,
+      stringFilter:{
+      id:"",
+      operator:"",
+      filter:""
+      },
+      integerFilter:{
+        id:"",
+        operator:"",
+        filter:""
+        }
     };
 
 
 
     
-    handleChangeValue = event => {
-      this.setState({ filter: event.target.value });
-      const doc={
-        id:"",
-        operator:"",
-        filter:""
-       }
-       doc.id=this.state.id;
-       doc.operator=this.state.operator;
-       doc.filter=this.state.filter;
-      con.push(doc)
-      console.log("conditions",con)
-     
-    };
-    handleChangeId=e=>{
+    
+    handleChangeIntegerId=e=>{
         this.setState({id:e.target.value})
+        this.setState(prevState => ({
+            integerFilter: {                   // object that we want to update
+                ...prevState.integerFilter,    // keep all other key-value pairs
+                id: e.target.value       // update the value of specific key
+            }
+        }))
     }
-    handleChangeOperator=e=>{
+    handleChangeIntegerOperator=e=>{
         this.setState({operator:e.target.value})
+        this.setState(prevState => ({
+            integerFilter: {                   // object that we want to update
+                ...prevState.integerFilter,    // keep all other key-value pairs
+                operator: e.target.value       // update the value of specific key
+            }
+        }))
+    }
+    handleChangeIntegerFilter = e => {
+        this.setState({ filter: e.target.value });
+        this.setState(prevState => ({
+            integerFilter: {                   // object that we want to update
+                ...prevState.integerFilter,    // keep all other key-value pairs
+                filter: e.target.value       // update the value of specific key
+            }
+        }))
+      };
+    handleChangeStringId=e=>{
+        this.setState({id:e.target.value})
+        this.setState(prevState => ({
+            stringFilter: {                   // object that we want to update
+                ...prevState.stringFilter,    // keep all other key-value pairs
+                id: e.target.value       // update the value of specific key
+            }
+        }))
+    }
+   
+    handleChangeStringOperator=e=>{
+        this.setState({operator:e.target.value})
+        this.setState(prevState => ({
+            stringFilter: {                   // object that we want to update
+                ...prevState.stringFilter,    // keep all other key-value pairs
+                operator: e.target.value       // update the value of specific key
+            }
+        }))
+    }
+    handleChangeStringFilter=e=>{
+        this.setState({filter:e.target.value})
+        this.setState(prevState => ({
+            stringFilter: {                   // object that we want to update
+                ...prevState.stringFilter,    // keep all other key-value pairs
+                filter: e.target.value       // update the value of specific key
+            }
+        }))
+
     }
     handleSearch=e=>{
-        const doc={
-            id:"",
-            operator:"",
-            filter:""
-           }
-      doc.id=this.state.id;
-      doc.operator=this.state.operator;
-      doc.filter=this.state.filter;
-      con.push(doc)
+    con.shift()
+     con.push(this.state.stringFilter);
+     con.push(this.state.integerFilter)
       this.setState({clicked:true})
+      console.log(con)
 
       
     }
@@ -71,16 +113,18 @@ class Filter extends React.Component {
    
     render() 
     {
+   
+
 
 
 
 
       return (
         <div> 
-               
-        <span> <select name="filters" id="id" onChange={this.handleChangeId}>
-         <option value="location">Location</option>
+        
+        <span> <select name="filters" id="id" onChange={this.handleChangeIntegerId}>
          <option value="name">Name</option>
+         <option value="location">Location</option>
          <option value="sname">Screen Name</option>
          <option value="followers">Followers</option>
          <option value="following">Following</option>
@@ -88,7 +132,7 @@ class Filter extends React.Component {
           </span>
 
 
-          { (this.state.id==="followers") ?  <span><select name="" id="operator" onChange={this.handleChangeOperator}>
+          { (this.state.id==="followers") ?  <span><select name="" id="operator" onChange={this.handleChangeIntegerOperator}>
       <option value="GTE">{" >= "}</option>
       <option value="LTE">{" <= "}</option> 
           </select>
@@ -97,17 +141,33 @@ class Filter extends React.Component {
 
 
 
-          <span><input value={this.state.filter} placeholder={this.state.id} onChange={this.handleChangeValue} /></span>
+          <span><input value={this.state.integerFilter.filter} onChange={this.handleChangeIntegerFilter} /></span>
 
 
 
-
-          <button onClick={this.handleSearch}>Search</button>
-          {
-            (this.state.clicked===true)?
-          <Child con={con}/>: null
+          <span> <select name="filters1" id="id1" onChange={this.handleChangeStringId}>
+         <option value="name">Name</option>
+          
+         <option value="location">Location</option>
+         <option value="sname">Screen Name</option>
+         <option value="followers">Followers</option>
+         <option value="following">Following</option>
+          </select>
+          </span>
+ 
+          { (this.state.id==="location") ?  <span><select name="" id="operator1" onChange={this.handleChangeStringOperator}>
+      <option value="">{" "}</option>
+      <option value="CONTAINS">{" contains "}</option>
+     
+          </select>
+          </span>:null
           }
-            
+
+<span><input value={this.state.stringFilter.filter}  onChange={this.handleChangeStringFilter} /></span>
+        {/* {console.log("StringFilter",this.state.stringFilter,"IntegerFilter",this.state.integerFilter)} */}
+          <button onClick={this.handleSearch}>Search</button>
+         
+            <Child  con={con}/> 
         </div>
       );
     }

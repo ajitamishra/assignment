@@ -18,39 +18,51 @@ function Child(props) {
  
     const data= MOCK_DATA;
     const columns=['Name','ScreeName','Followers','Following','Location','Verified']
-
-   var obj=data;
-   var filtered=data;
-
-    const filteredData=props.con.map(doc=>
-        {
-          obj=filtered;
-          filtered=()=>{   
-              
-              if(doc.id=="followers")
-                {
-                 if(doc.operator=="GTE")
-                 {
-                     return obj.filter(obj1=>obj1.followers>=Number(doc.filter))
-                 }
-                 else
-                 {
-                    return obj.filter(obj1=>obj1.followers<=Number(doc.filter))
-                 }
-                }
-             else if(doc.id=="location")
-             {
-              if(doc.operator=="CONTAINS")
+     
+    const res=[];
+    const filteredData=data.filter((item)=>
+    {
+        var val=true;
+      props.con.forEach(doc=>{
+          
+          if(doc.id==="followers")
+          {
+              if(doc.operator==="GTE")
               {
-                  return obj.filter(obj1=>obj1.location.includes(doc.filter))
-              }   
+                  if(item.followers>=Number(doc.filter)&& val)
+                  val=true;
+                  else
+                  val=false;
               }
+              else if(doc.operator==="LTE")
+              {
+                if(item.followers<=Number(doc.filter) && val)
+                  val=true;
+                  else
+                  val=false;
             }
-
-         })
-         console.log(filteredData)
-    
+          }
+          if(doc.id==="location")
+          {
+              if(item.location.includes(doc.filter) && val)
+              val=true;
+              else
+              val=false;
+          }
+          if(doc.id==="verified")
+          {
+              if(item.verified && val)
+              val=true;
+              else
+              val=false
+               
+          }
         
+      })  
+        if(val)
+        res.push(item)
+    })
+        console.log(res)
     
 
 
@@ -78,16 +90,16 @@ function Child(props) {
 
 
             <tbody>
-                {/* {filteredData.map(user=>
+                {res.map(user=>
                     <tr>
                         <td>{user.name}</td>
                         <td>{user.sname}</td>
                         <td>{user.followers}</td>
                         <td>{user.following}</td>
                         <td>{user.location}</td>
-                        <td>{user.verified}</td>
+                        <td>{user.verified===true ?"Verified":"Not Verified"}</td>
                     
-                    </tr>)} */}
+                    </tr>)}
             </tbody>
 
 

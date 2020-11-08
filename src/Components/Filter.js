@@ -34,7 +34,12 @@ class Filter extends React.Component {
         id:"",
         operator:"",
         filter:""
-        }
+        },
+      boolFilter:{
+        id:"",
+        operator:"",
+        filter:""   
+      }
     };
 
 
@@ -64,6 +69,33 @@ class Filter extends React.Component {
         this.setState(prevState => ({
             integerFilter: {                   // object that we want to update
                 ...prevState.integerFilter,    // keep all other key-value pairs
+                filter: e.target.value       // update the value of specific key
+            }
+        }))
+      };
+      handleChangeBoolId=e=>{
+        this.setState({id:e.target.value})
+        this.setState(prevState => ({
+            boolFilter: {                   // object that we want to update
+                ...prevState.boolFilter,    // keep all other key-value pairs
+                id: e.target.value       // update the value of specific key
+            }
+        }))
+    }
+    handleChangeBoolOperator=e=>{
+        this.setState({operator:e.target.value})
+        this.setState(prevState => ({
+            boolFilter: {                   // object that we want to update
+                ...prevState.boolFilter,    // keep all other key-value pairs
+                operator: e.target.value       // update the value of specific key
+            }
+        }))
+    }
+    handleChangeBoolFilter = e => {
+        this.setState({ filter: e.target.value });
+        this.setState(prevState => ({
+            boolFilter: {                   // object that we want to update
+                ...prevState.boolFilter,    // keep all other key-value pairs
                 filter: e.target.value       // update the value of specific key
             }
         }))
@@ -101,6 +133,7 @@ class Filter extends React.Component {
     con.shift()
      con.push(this.state.stringFilter);
      con.push(this.state.integerFilter)
+     con.push(this.state.boolFilter)
       this.setState({clicked:true})
       console.log(con)
 
@@ -128,11 +161,13 @@ class Filter extends React.Component {
          <option value="sname">Screen Name</option>
          <option value="followers">Followers</option>
          <option value="following">Following</option>
+         <option value="verified">Verified</option>
           </select>
           </span>
 
 
           { (this.state.id==="followers") ?  <span><select name="" id="operator" onChange={this.handleChangeIntegerOperator}>
+      <option value="">{" "}</option>
       <option value="GTE">{" >= "}</option>
       <option value="LTE">{" <= "}</option> 
           </select>
@@ -152,6 +187,7 @@ class Filter extends React.Component {
          <option value="sname">Screen Name</option>
          <option value="followers">Followers</option>
          <option value="following">Following</option>
+         <option value="verified">Verified</option>
           </select>
           </span>
  
@@ -164,6 +200,26 @@ class Filter extends React.Component {
           }
 
 <span><input value={this.state.stringFilter.filter}  onChange={this.handleChangeStringFilter} /></span>
+
+<span> <select name="filters2" id="id2" onChange={this.handleChangeBoolId}>
+         <option value="name">Name</option> 
+         <option value="location">Location</option>
+         <option value="sname">Screen Name</option>
+         <option value="followers">Followers</option>
+         <option value="following">Following</option>
+         <option value="verified">Verified</option>
+          </select>
+          </span>
+ 
+          { (this.state.id==="verified") ?  <span><select name="" id="operator2" onChange={this.handleChangeBoolOperator}>
+      <option value="">{" "}</option>
+      <option value="EQUALS">{" equals "}</option>
+     
+          </select>
+          </span>:null
+          }
+
+<span><input value={this.state.boolFilter.filter}  onChange={this.handleChangeBoolFilter} /></span>
         {/* {console.log("StringFilter",this.state.stringFilter,"IntegerFilter",this.state.integerFilter)} */}
           <button onClick={this.handleSearch}>Search</button>
          

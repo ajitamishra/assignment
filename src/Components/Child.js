@@ -51,18 +51,20 @@ function Child(props) {
           }
           if(doc.id==="verified")
           {
-              if(item.verified && val)
+              if(item.verified===Boolean(doc.filter) && val)
+              {
               val=true;
+              console.log(item.verified===Boolean(doc.filter),item.verified,doc.filter,item)
+              }
               else
-              val=false
-               
+              val=false    
           }
         
       })  
         if(val)
         res.push(item)
     })
-        console.log(res)
+        // console.log(res)
     
 
 

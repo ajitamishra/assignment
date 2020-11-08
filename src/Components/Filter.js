@@ -1,7 +1,6 @@
 import React from 'react';
 import MOCK_DATA from './MOCK_DATA.json';
 import Child from './Child';
-import _ from "lodash";
 
 
 const con=[
@@ -13,7 +12,7 @@ const con=[
          ]
 
 
-const items=['Name','ScreeName','Followers','Following','Location','Verified'];
+const items=['Followers','Location','Verified'];
 
 const loc=(MOCK_DATA.location);
 
@@ -39,7 +38,12 @@ class Filter extends React.Component {
         id:"",
         operator:"",
         filter:""   
-      }
+      },
+      followingFilter:{
+        id:"",
+        operator:"",
+        filter:""   
+      },
     };
 
 
@@ -129,6 +133,7 @@ class Filter extends React.Component {
         }))
 
     }
+    
     handleSearch=e=>{
     con.shift()
      con.push(this.state.stringFilter);
@@ -147,20 +152,13 @@ class Filter extends React.Component {
     render() 
     {
    
-
-
-
-
-
       return (
         <div> 
         
         <span> <select name="filters" id="id" onChange={this.handleChangeIntegerId}>
-         <option value="name">Name</option>
+         <option value="">{" "}</option>
          <option value="location">Location</option>
-         <option value="sname">Screen Name</option>
          <option value="followers">Followers</option>
-         <option value="following">Following</option>
          <option value="verified">Verified</option>
           </select>
           </span>
@@ -171,8 +169,20 @@ class Filter extends React.Component {
       <option value="GTE">{" >= "}</option>
       <option value="LTE">{" <= "}</option> 
           </select>
+          </span>:  (this.state.id==="location") ?  <span><select name="" id="operator1" onChange={this.handleChangeStringOperator}>
+      <option value="">{" "}</option>
+      <option value="CONTAINS">{" contains "}</option>
+     
+          </select>
+          </span>:  (this.state.id==="verified") ?  <span><select name="" id="operator2" onChange={this.handleChangeBoolOperator}>
+      <option value="">{" "}</option>
+      <option value="EQUALS">{" equals "}</option>
+     
+          </select>
           </span>:null
+          
           }
+          
 
 
 
@@ -181,45 +191,64 @@ class Filter extends React.Component {
 
 
           <span> <select name="filters1" id="id1" onChange={this.handleChangeStringId}>
-         <option value="name">Name</option>
-          
+          <option value="">{" "}</option>
          <option value="location">Location</option>
-         <option value="sname">Screen Name</option>
          <option value="followers">Followers</option>
-         <option value="following">Following</option>
          <option value="verified">Verified</option>
           </select>
           </span>
  
-          { (this.state.id==="location") ?  <span><select name="" id="operator1" onChange={this.handleChangeStringOperator}>
+          { (this.state.id==="followers") ?  <span><select name="" id="operator" onChange={this.handleChangeIntegerOperator}>
+      <option value="">{" "}</option>
+      <option value="GTE">{" >= "}</option>
+      <option value="LTE">{" <= "}</option> 
+          </select>
+          </span>:  (this.state.id==="location") ?  <span><select name="" id="operator1" onChange={this.handleChangeStringOperator}>
       <option value="">{" "}</option>
       <option value="CONTAINS">{" contains "}</option>
      
           </select>
-          </span>:null
-          }
-
-<span><input value={this.state.stringFilter.filter}  onChange={this.handleChangeStringFilter} /></span>
-
-<span> <select name="filters2" id="id2" onChange={this.handleChangeBoolId}>
-         <option value="name">Name</option> 
-         <option value="location">Location</option>
-         <option value="sname">Screen Name</option>
-         <option value="followers">Followers</option>
-         <option value="following">Following</option>
-         <option value="verified">Verified</option>
-          </select>
-          </span>
- 
-          { (this.state.id==="verified") ?  <span><select name="" id="operator2" onChange={this.handleChangeBoolOperator}>
+          </span>:  (this.state.id==="verified") ?  <span><select name="" id="operator2" onChange={this.handleChangeBoolOperator}>
       <option value="">{" "}</option>
       <option value="EQUALS">{" equals "}</option>
      
           </select>
           </span>:null
+          
           }
+          
 
-<span><input value={this.state.boolFilter.filter}  onChange={this.handleChangeBoolFilter} /></span>
+<span><input value={this.state.stringFilter.filter}  onChange={this.handleChangeStringFilter} /></span>
+
+<span> <select name="filters2" id="id2" onChange={this.handleChangeBoolId}>
+          <option value="">{" "}</option>
+         <option value="location">Location</option>
+         <option value="followers">Followers</option>
+         <option value="verified">Verified</option>
+          </select>
+          </span>
+ 
+          { (this.state.id==="followers") ?  <span><select name="" id="operator" onChange={this.handleChangeIntegerOperator}>
+      <option value="">{" "}</option>
+      <option value="GTE">{" >= "}</option>
+      <option value="LTE">{" <= "}</option> 
+          </select>
+          </span>:  (this.state.id==="location") ?  <span><select name="" id="operator1" onChange={this.handleChangeStringOperator}>
+      <option value="">{" "}</option>
+      <option value="CONTAINS">{" contains "}</option>
+     
+          </select>
+          </span>:  (this.state.id==="verified") ?  <span><select name="" id="operator2" onChange={this.handleChangeBoolOperator}>
+      <option value="">{" "}</option>
+      <option value="EQUALS">{" equals "}</option>
+     
+          </select>
+          </span>:null
+          
+          }
+     
+     <span><input value={this.state.boolFilter.filter}  onChange={this.handleChangeBoolFilter} /></span>
+
         {/* {console.log("StringFilter",this.state.stringFilter,"IntegerFilter",this.state.integerFilter)} */}
           <button onClick={this.handleSearch}>Search</button>
          

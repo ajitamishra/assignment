@@ -1,16 +1,29 @@
 import React, { useState } from 'react';
 import MOCK_DATA from './MOCK_DATA.json';
 import './table.css'
+
+
 const doc={
-    id:"",
-    operator:"",
-    filter:""
-  }
+            id:"",
+            operator:"",
+            filter:""
+         }
+
+
+
 function Child(props) {
+
+
     const [document,setDocument]=useState([]);
-    const {doc}=props;
+ 
+    let l=props.con.length;
+    const doc=props.con[l-1];
+    console.log(doc)
     const data= MOCK_DATA;
     const columns=['Name','ScreeName','Followers','Following','Location','Verified']
+
+
+
     const filteredData=data.filter((item)=>{
        
         if(item.followers >= Number(doc.filter))
@@ -19,12 +32,21 @@ function Child(props) {
         return item
         }
     })
+
+
+
      React.useEffect(()=>{
         
       setDocument([...document,{filteredData}])
      },[])
+
+
+
+
     return (
         <div>
+
+
            <table>
             <thead>
                 {
@@ -33,6 +55,8 @@ function Child(props) {
                         )
                 }
             </thead>
+
+
             <tbody>
                 {filteredData.map(user=>
                     <tr>
@@ -45,6 +69,8 @@ function Child(props) {
                     
                     </tr>)}
             </tbody>
+
+            
            </table>
         </div>
     )

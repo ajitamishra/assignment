@@ -21,6 +21,7 @@ class Filter extends React.Component {
 		clicked: false,
 		stringFilter: {
 			id: "",
+		
 			operator: "",
 			filter: null,
 		},
